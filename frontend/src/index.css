@@ -91,3 +91,32 @@ button.link {
   .card, .welcome { width: 100%; max-width: 568px; }
   .header, .footer { padding-left: 24px; padding-right: 24px; }
 }
+
+.main.center { justify-content: center; padding: 40px 24px 64px; }
+.card.wide { width: 720px; max-width: 100%; }
+
+select {
+  height: 52px; padding: 0 16px; font: inherit; font-size: 16px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+}
+
+button.secondary {
+  background: #fff; border: 1px solid var(--line);
+}
+
+a.button-link {
+  display: flex; align-items: center; justify-content: center;
+  height: 52px; border-radius: 8px; background: var(--accent);
+  color: #000; font-size: 16px; font-weight: 500; text-decoration: none;
+}
+
+.linkbox {
+  padding: 12px 16px; border: 1px dashed var(--line); border-radius: 8px;
+  font-family: "IBM Plex Mono", monospace; font-size: 13px;
+  word-break: break-all; background: var(--bg);
+}
+
+.invite-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 12px 0; border-top: 1px solid var(--line);
+}
