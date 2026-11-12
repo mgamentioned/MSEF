@@ -21,6 +21,7 @@ async function request(path, { method = "GET", body, token } = {}) {
   return data;
 }
 
+// login
 export const requestCode = (email) =>
   request("/auth/request-code", { method: "POST", body: { email } });
 
@@ -29,6 +30,7 @@ export const verifyCode = (email, code) =>
 
 export const getMe = (token) => request("/auth/me", { token });
 
+// invites
 export const listInvites = (token) => request("/invites", { token });
 
 export const createInvite = (token, body) =>
@@ -42,3 +44,9 @@ export const joinWithInvite = (inviteToken, email) =>
     method: "POST",
     body: { token: inviteToken, email },
   });
+
+// student profile
+export const getProfile = (token) => request("/profile/me", { token });
+
+export const saveProfile = (token, body) =>
+  request("/profile/me", { method: "PUT", body, token });

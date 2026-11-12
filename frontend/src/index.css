@@ -120,3 +120,49 @@ a.button-link {
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding: 12px 0; border-top: 1px solid var(--line);
 }
+textarea {
+  min-height: 108px; padding: 14px 16px; font: inherit; font-size: 16px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+  resize: vertical;
+}
+textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+input[readonly] { background: var(--bg); color: var(--muted); }
+
+.main.form-page { flex-direction: column; align-items: center; gap: 32px; }
+.intro { width: 760px; max-width: 100%; }
+
+.card.form { width: 760px; max-width: 100%; padding: 0; gap: 0; overflow: hidden; }
+.form-top {
+  display: flex; justify-content: space-between; padding: 20px 32px;
+  background: var(--bg); font-size: 14px;
+}
+.form-section {
+  display: flex; flex-direction: column; gap: 24px;
+  padding: 32px; border-top: 1px solid #e8e6e0;
+}
+.section-title { display: flex; align-items: baseline; gap: 12px; }
+.section-title h2 {
+  margin: 0; font-family: "IBM Plex Mono", monospace; font-weight: 700;
+  font-size: 18px; letter-spacing: 0.9px;
+}
+.accent-text { color: var(--accent); font-size: 13px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+.choice {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px;
+  border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+  font-size: 14px; font-weight: 500;
+}
+.choice input { width: auto; height: auto; margin-top: 2px; accent-color: var(--accent); }
+.choice.on { border-color: var(--accent); background: #fff6f2; }
+.choice small { display: block; margin-top: 4px; font-size: 13px; font-weight: 400; color: var(--muted); }
+
+.form-actions {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  padding: 32px; background: var(--bg); border-top: 1px solid var(--line);
+}
+.form-actions button { width: 160px; flex-shrink: 0; }
+
+@media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
