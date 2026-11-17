@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import auth, invites, mentor, profile
+from app.routers import auth, availability, invites, mentor, profile
 
 app = FastAPI(title="MSEF")
 
@@ -16,6 +16,7 @@ app.include_router(auth.router)
 app.include_router(invites.router)
 app.include_router(profile.router)
 app.include_router(mentor.router)
+app.include_router(availability.router)
 
 @app.get("/ping")
 def ping():

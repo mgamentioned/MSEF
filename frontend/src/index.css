@@ -178,3 +178,27 @@ input[readonly] { background: var(--bg); color: var(--muted); }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .photo-actions { display: flex; align-items: center; gap: 16px; }
 button.small { height: 40px; padding: 0 16px; font-size: 14px; }
+
+.switch { position: relative; width: 32px; height: 18px; flex-shrink: 0; margin-top: 8px; }
+.switch input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; padding: 0; opacity: 0; cursor: pointer; border: 0; }
+.switch span { position: absolute; inset: 0; border-radius: 999px; background: var(--line); transition: background 0.15s; pointer-events: none; }
+.switch span::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform 0.15s; }
+.switch input:checked + span { background: var(--accent); }
+.switch input:checked + span::after { transform: translateX(14px); }
+.switch input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.week-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
+.day-name { width: 100px; flex-shrink: 0; padding-top: 8px; font-size: 14px; font-weight: 500; }
+.grow { flex: 1; }
+.week-row > p.hint { padding-top: 8px; }
+.windows { display: flex; flex-direction: column; gap: 8px; }
+.window { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.window select { width: 122px; height: 36px; padding: 0 8px; font-size: 13px; }
+.window-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+button.link.inline { color: var(--muted); font: inherit; font-size: 13px; }
+.small-text { font-size: 14px; font-weight: 500; }
+.form-section.no-border { border-top: 0; }
+.chip.plain { border-color: var(--line); background: #fff; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--accent); border-radius: 999px; background: #fff6f2; font-size: 14px; }

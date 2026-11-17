@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { getMe, getMentorProfile, getProfile } from "./api";
+import Availability from "./pages/Availability";
 import Invites from "./pages/Invites";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
@@ -35,6 +36,9 @@ function Home({ me, profile, onLogout }) {
           </p>
           {hasProfile && (
             <Link to="/profile" className="button-link">Edit my profile</Link>
+          )}
+          {me.role === "mentor" && (
+            <Link to="/availability" className="button-link">Set my availability</Link>
           )}
           {canInvite && (
             <Link to="/invites" className="button-link">Manage invite links</Link>
@@ -111,6 +115,12 @@ export default function App() {
       <ProfileForm token={token} me={me} profile={profile} onSaved={setProfile} />
     );
 
+  let availabilityPage;
+  if (!token) availabilityPage = <Navigate to="/" replace />;
+  else if (!ready) availabilityPage = <Loading />;
+  else if (me.role !== "mentor") availabilityPage = <Navigate to="/" replace />;
+  else availabilityPage = <Availability token={token} me={me} />;
+
   return (
     <BrowserRouter>
       <Routes>
@@ -120,6 +130,7 @@ export default function App() {
           element={token ? <Invites token={token} me={me} /> : <Navigate to="/" />}
         />
         <Route path="/profile" element={profilePage} />
+        <Route path="/availability" element={availabilityPage} />
         <Route path="*" element={home} />
       </Routes>
     </BrowserRouter>

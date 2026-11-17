@@ -71,3 +71,12 @@ export const uploadMentorPhoto = (token, file) => {
 
 export const deleteMentorPhoto = (token) =>
   request("/mentor-profile/me/photo", { method: "DELETE", token });
+
+// mentor availability
+export const getAvailability = (token) => request("/availability/me", { token });
+
+export const saveAvailability = (token, body) =>
+  request("/availability/me", { method: "PUT", body, token });
+
+export const getMentorSlots = (token, mentorId) =>
+  request(`/availability/mentors/${mentorId}/slots`, { token });

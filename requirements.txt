@@ -8,3 +8,4 @@ email-validator
 alembic
 python-multipart
 pillow
+tzdata
