@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
-import { getMe, getProfile } from "./api";
+import { getMe, getMentorProfile, getProfile } from "./api";
 import Invites from "./pages/Invites";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
+import MentorProfileForm from "./pages/MentorProfileForm";
 import ProfileForm from "./pages/ProfileForm";
+
+// roles that must fill in a profile, and how to load each one
+const PROFILE_LOADERS = { student: getProfile, mentor: getMentorProfile };
 
 function Loading() {
   return (
@@ -18,6 +22,7 @@ function Loading() {
 
 function Home({ me, profile, onLogout }) {
   const canInvite = me.role === "admin" || me.role === "teacher";
+  const hasProfile = me.role in PROFILE_LOADERS;
   return (
     <div className="page">
       <main className="main center">
@@ -28,7 +33,7 @@ function Home({ me, profile, onLogout }) {
           <p className="lead">
             {me.email} · {me.role}
           </p>
-          {me.role === "student" && (
+          {hasProfile && (
             <Link to="/profile" className="button-link">Edit my profile</Link>
           )}
           {canInvite && (
@@ -70,11 +75,12 @@ export default function App() {
 
   useEffect(() => {
     if (!me) return;
-    if (me.role !== "student") {
-      setProfile(null);
+    const load = PROFILE_LOADERS[me.role];
+    if (!load) {
+      setProfile(null); // admins and teachers have no profile
       return;
     }
-    getProfile(token)
+    load(token)
       .then(setProfile)
       .catch((err) => {
         if (err.status === 404) setProfile(null);
@@ -83,7 +89,8 @@ export default function App() {
   }, [me]);
 
   const ready = Boolean(token && me && profile !== undefined);
-  const needsProfile = ready && me.role === "student" && profile === null;
+  const hasProfileRole = ready && me.role in PROFILE_LOADERS;
+  const needsProfile = hasProfileRole && profile === null;
 
   let home;
   if (!token) home = <Login onLoggedIn={handleLoggedIn} />;
@@ -94,7 +101,11 @@ export default function App() {
   let profilePage;
   if (!token) profilePage = <Navigate to="/" replace />;
   else if (!ready) profilePage = <Loading />;
-  else if (me.role !== "student") profilePage = <Navigate to="/" replace />;
+  else if (!hasProfileRole) profilePage = <Navigate to="/" replace />;
+  else if (me.role === "mentor")
+    profilePage = (
+      <MentorProfileForm token={token} me={me} profile={profile} onSaved={setProfile} />
+    );
   else
     profilePage = (
       <ProfileForm token={token} me={me} profile={profile} onSaved={setProfile} />

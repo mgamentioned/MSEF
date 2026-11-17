@@ -50,3 +50,9 @@ export const getProfile = (token) => request("/profile/me", { token });
 
 export const saveProfile = (token, body) =>
   request("/profile/me", { method: "PUT", body, token });
+
+// mentor profile
+export const getMentorProfile = (token) => request("/mentor-profile/me", { token });
+
+export const saveMentorProfile = (token, body) =>
+  request("/mentor-profile/me", { method: "PUT", body, token });

@@ -42,7 +42,7 @@ export default function Login({ onLoggedIn }) {
     <div className="page">
       <header className="header">
         <img src={logo} alt="Massachusetts Science + Engineering Fair" />
-        <span className="mono muted">MSEF Workspace</span>
+        <span className="mono muted">MSEF Mentorship</span>
       </header>
 
       <main className="main">
@@ -51,7 +51,7 @@ export default function Login({ onLoggedIn }) {
             <span className="mono muted">Welcome back</span>
             <h1>Sign in</h1>
             <p className="lead">
-              Connect with your mentor and take your science fair project further.
+              Connect with MSEF mentors and take your science fair project further.
             </p>
           </div>
 
