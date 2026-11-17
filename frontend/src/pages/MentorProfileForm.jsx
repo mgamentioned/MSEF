@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveMentorProfile } from "../api";
+import {
+  deleteMentorPhoto,
+  getMentorPhoto,
+  photoSrc,
+  saveMentorProfile,
+  uploadMentorPhoto,
+} from "../api";
 import logo from "../assets/logo.png";
 
 const EXPERTISE = [
@@ -68,6 +74,55 @@ export default function MentorProfileForm({ token, me, profile, onSaved }) {
   );
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // profile photo (saved the moment it's chosen, separately from the form)
+  const fileRef = useRef(null);
+  const [photoUrl, setPhotoUrl] = useState(null);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState("");
+
+  useEffect(() => {
+    getMentorPhoto(token)
+      .then((r) => setPhotoUrl(r.photo_url))
+      .catch(() => {});
+  }, [token]);
+
+  async function handlePhoto(e) {
+    const file = e.target.files[0];
+    e.target.value = ""; // lets the same file be chosen again later
+    if (!file) return;
+    setPhotoError("");
+    if (!["image/jpeg", "image/png"].includes(file.type)) {
+      setPhotoError("Please choose a JPG or PNG image.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setPhotoError("That photo is over 5 MB. Please choose a smaller one.");
+      return;
+    }
+    setPhotoBusy(true);
+    try {
+      const r = await uploadMentorPhoto(token, file);
+      setPhotoUrl(r.photo_url);
+    } catch (err) {
+      setPhotoError(err.message);
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
+
+  async function removePhoto() {
+    setPhotoError("");
+    setPhotoBusy(true);
+    try {
+      await deleteMentorPhoto(token);
+      setPhotoUrl(null);
+    } catch (err) {
+      setPhotoError(err.message);
+    } finally {
+      setPhotoBusy(false);
+    }
+  }
 
   const set = (field) => (e) =>
     setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -144,6 +199,47 @@ export default function MentorProfileForm({ token, me, profile, onSaved }) {
               </div>
               <p className="hint">Introduce yourself to the MSEF community.</p>
             </div>
+
+            <div className="photo-row">
+              <div className="avatar">
+                {photoUrl ? (
+                  <img src={photoSrc(photoUrl)} alt="Your profile" />
+                ) : (
+                  <span>No photo available</span>
+                )}
+              </div>
+              <div className="stack-8">
+                <label>Profile photo (optional)</label>
+                <p className="hint">
+                  JPG or PNG, up to 5 MB. A clear, professional photo helps
+                  students get to know you.
+                </p>
+                <div className="photo-actions">
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg"
+                    hidden
+                    ref={fileRef}
+                    onChange={handlePhoto}
+                  />
+                  <button
+                    type="button"
+                    className="secondary small"
+                    disabled={photoBusy}
+                    onClick={() => fileRef.current.click()}
+                  >
+                    {photoBusy ? "Working…" : photoUrl ? "Replace photo" : "Upload photo"}
+                  </button>
+                  {photoUrl && !photoBusy && (
+                    <button type="button" className="link" onClick={removePhoto}>
+                      Remove
+                    </button>
+                  )}
+                </div>
+                {photoError && <p className="error">{photoError}</p>}
+              </div>
+            </div>
+
             <div className="grid-2">
               <div className="stack-8">
                 <label htmlFor="first_name">First name *</label>

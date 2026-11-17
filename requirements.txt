@@ -6,3 +6,5 @@ pyjwt
 pydantic-settings
 email-validator
 alembic
+python-multipart
+pillow
