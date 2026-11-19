@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { getMe, getMentorProfile, getProfile } from "./api";
+import MentorShell from "./components/MentorShell";
 import Availability from "./pages/Availability";
 import Invites from "./pages/Invites";
 import Join from "./pages/Join";
 import Login from "./pages/Login";
+import Meetings from "./pages/Meetings";
 import MentorProfileForm from "./pages/MentorProfileForm";
 import ProfileForm from "./pages/ProfileForm";
 
@@ -36,9 +38,6 @@ function Home({ me, profile, onLogout }) {
           </p>
           {hasProfile && (
             <Link to="/profile" className="button-link">Edit my profile</Link>
-          )}
-          {me.role === "mentor" && (
-            <Link to="/availability" className="button-link">Set my availability</Link>
           )}
           {canInvite && (
             <Link to="/invites" className="button-link">Manage invite links</Link>
@@ -96,21 +95,31 @@ export default function App() {
   const hasProfileRole = ready && me.role in PROFILE_LOADERS;
   const needsProfile = hasProfileRole && profile === null;
 
+  const isMentor = ready && me.role === "mentor";
+  const inShell = (title, content) => (
+    <MentorShell me={me} profile={profile} title={title} onLogout={logout}>
+      {content}
+    </MentorShell>
+  );
+
   let home;
   if (!token) home = <Login onLoggedIn={handleLoggedIn} />;
   else if (!ready) home = <Loading />;
   else if (needsProfile) home = <Navigate to="/profile" replace />;
+  else if (isMentor) home = inShell("Meetings", <Meetings />);
   else home = <Home me={me} profile={profile} onLogout={logout} />;
 
   let profilePage;
   if (!token) profilePage = <Navigate to="/" replace />;
   else if (!ready) profilePage = <Loading />;
   else if (!hasProfileRole) profilePage = <Navigate to="/" replace />;
-  else if (me.role === "mentor")
-    profilePage = (
+  else if (me.role === "mentor") {
+    const form = (
       <MentorProfileForm token={token} me={me} profile={profile} onSaved={setProfile} />
     );
-  else
+    // first-time setup has no sidebar; editing later does
+    profilePage = profile ? inShell("My profile", form) : form;
+  } else
     profilePage = (
       <ProfileForm token={token} me={me} profile={profile} onSaved={setProfile} />
     );
@@ -119,7 +128,7 @@ export default function App() {
   if (!token) availabilityPage = <Navigate to="/" replace />;
   else if (!ready) availabilityPage = <Loading />;
   else if (me.role !== "mentor") availabilityPage = <Navigate to="/" replace />;
-  else availabilityPage = <Availability token={token} me={me} />;
+  else availabilityPage = inShell("Availability", <Availability token={token} me={me} />);
 
   return (
     <BrowserRouter>

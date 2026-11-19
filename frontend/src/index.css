@@ -202,3 +202,78 @@ button.link.inline { color: var(--muted); font: inherit; font-size: 13px; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip { display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--accent); border-radius: 999px; background: #fff6f2; font-size: 14px; }
+
+/* ---- mentor workspace: sidebar + top bar ---- */
+.shell { display: flex; min-height: 100vh; background: var(--bg); }
+.sidebar {
+  position: sticky; top: 0; height: 100vh; width: 216px; flex-shrink: 0;
+  display: flex; flex-direction: column; gap: 32px;
+  padding: 29px 16px 20px; border-right: 1px solid var(--line);
+}
+.brand img { display: block; width: 140px; height: auto; margin: 0 auto; }
+.side-label {
+  margin: 0 0 12px; padding-left: 8px; color: var(--muted);
+  font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 10px; letter-spacing: 0.5px;
+}
+.nav-list { display: flex; flex-direction: column; gap: 5px; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px; height: 43px; padding: 0 12px;
+  border-radius: 8px; color: var(--muted); font-size: 13px; text-decoration: none;
+}
+.nav-item:hover { background: #ecebe6; }
+.nav-item.active { background: #fff1ca; color: #000; font-weight: 500; }
+.side-spacer { flex: 1; }
+.account {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 5px 0; border-top: 1px solid var(--line);
+}
+.avatar-initials {
+  width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: #fff1ca;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500;
+}
+.account-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.account-name { font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.account-role { font-size: 10px; color: var(--muted); }
+.icon-btn {
+  width: 28px; height: 28px; padding: 0; flex-shrink: 0; border-radius: 6px;
+  background: none; color: var(--muted); display: flex; align-items: center; justify-content: center;
+}
+.icon-btn:hover { background: #ecebe6; color: #000; }
+
+.workspace { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.workspace-bar {
+  display: flex; align-items: center; gap: 9px; height: 64px; padding: 0 32px;
+  background: #fff; border-bottom: 1px solid var(--line); font-size: 12px;
+}
+.workspace-body { flex: 1; }
+
+/* pages built earlier (profile, availability) reuse their own layout inside the workspace */
+.workspace-body .page { min-height: 0; }
+.workspace-body .header { display: none; }
+.workspace-body .intro > a.hint { display: none; }
+.workspace-body .main.form-page { align-items: flex-start; padding: 28px 32px 32px; }
+
+/* meetings page */
+.meetings { display: flex; flex-direction: column; gap: 24px; padding: 28px 32px 32px; }
+.mono-h { margin: 0; font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 18px; letter-spacing: 0.9px; }
+.empty-card {
+  display: flex; align-items: center; gap: 20px; padding: 24px;
+  background: #fff; border: 1px solid var(--line); border-radius: 12px;
+}
+.empty-card .stack-8 { flex: 1; }
+.empty-icon {
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px; background: #fff1ca;
+  display: flex; align-items: center; justify-content: center; color: var(--accent);
+}
+a.button-link.inline-button { height: 36px; padding: 0 14px; flex-shrink: 0; font-size: 13px; }
+.note { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 11px; color: var(--muted); }
+
+@media (max-width: 800px) {
+  .shell { flex-direction: column; }
+  .sidebar { position: static; height: auto; width: auto; gap: 16px; padding: 16px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .nav-list { flex-direction: row; flex-wrap: wrap; }
+  .side-spacer { display: none; }
+  .account { padding-top: 12px; }
+  .workspace-bar, .meetings { padding-left: 16px; padding-right: 16px; }
+  .empty-card { flex-direction: column; align-items: flex-start; }
+}
