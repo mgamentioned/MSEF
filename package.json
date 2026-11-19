@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "lucide-react": "^1.75.0",
     "react-router-dom": "^7.18.5"
   }
 }

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { CalendarDays, Info } from "lucide-react";
 
 export default function Meetings() {
   return (
@@ -16,7 +15,7 @@ export default function Meetings() {
         <h2 className="mono-h">Upcoming meetings</h2>
         <div className="empty-card">
           <div className="empty-icon">
-            <CalendarDays size={22} strokeWidth={1.75} />
+            <span aria-hidden="true">○</span>
           </div>
           <div className="stack-8">
             <strong>No upcoming meetings yet</strong>
@@ -33,9 +32,8 @@ export default function Meetings() {
       </section>
 
       <p className="note">
-        <Info size={14} />
-        Rescheduling or cancelling a meeting notifies the student. Zoom links are
-        only available for confirmed sessions.
+        <span aria-hidden="true">i</span>
+        Rescheduling or cancelling a meeting notifies the student. 
       </p>
     </div>
   );

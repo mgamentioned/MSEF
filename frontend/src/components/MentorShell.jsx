@@ -1,11 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { CalendarDays, ChevronRight, Clock3, LogOut, User } from "lucide-react";
 import logo from "../assets/logo.png";
 
 const NAV = [
-  { to: "/", label: "Meetings", icon: CalendarDays, end: true },
-  { to: "/availability", label: "Availability", icon: Clock3 },
-  { to: "/profile", label: "My profile", icon: User },
+  { to: "/", label: "Meetings", end: true },
+  { to: "/availability", label: "Availability" },
+  { to: "/profile", label: "My profile" },
 ];
 
 export default function MentorShell({ me, profile, title, onLogout, children }) {
@@ -24,14 +23,13 @@ export default function MentorShell({ me, profile, title, onLogout, children }) 
         <nav>
           <p className="side-label">MENTOR WORKSPACE</p>
           <div className="nav-list">
-            {NAV.map(({ to, label, icon: Icon, end }) => (
+            {NAV.map(({ to, label, end }) => (
               <NavLink
                 key={to}
                 to={to}
                 end={end}
                 className={({ isActive }) => "nav-item" + (isActive ? " active" : "")}
               >
-                <Icon size={18} strokeWidth={1.75} />
                 {label}
               </NavLink>
             ))}
@@ -47,7 +45,7 @@ export default function MentorShell({ me, profile, title, onLogout, children }) 
             <div className="account-role">Science fair mentor</div>
           </div>
           <button className="icon-btn" onClick={onLogout} aria-label="Log out" title="Log out">
-            <LogOut size={16} />
+              <span aria-hidden="true">×</span>
           </button>
         </div>
       </aside>
@@ -55,7 +53,7 @@ export default function MentorShell({ me, profile, title, onLogout, children }) 
       <div className="workspace">
         <div className="workspace-bar">
           <span className="muted">MSEF mentor workspace</span>
-          <ChevronRight size={12} />
+          <span aria-hidden="true">›</span>
           <strong>{title}</strong>
         </div>
         <div className="workspace-body">{children}</div>
